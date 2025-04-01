@@ -15,20 +15,11 @@
    
   );
    reg ready=1'b0;
-   reg [31:0]rdata;
+   wire [31:0]rdata;
    storage m1(pwrite,paddr,pwdata,pstrb,rdata);
    always @(*) begin
      if(psel & penable & pwrite) begin
             ready=1'b1;
-          /*  if(pstrb==4'b0) begin
-            	memory[paddr]=pwdata;
-            end
-            else begin
-              if (pstrb[0]) memory[paddr][7:0]   = pwdata[7:0];
-            	if (pstrb[1]) memory[paddr][15:8]  = pwdata[15:8];
-           		if (pstrb[2]) memory[paddr][23:16] = pwdata[23:16];
-            	if (pstrb[3]) memory[paddr][31:24] = pwdata[31:24];
-            end*/
           end
      else if(psel & penable & ~pwrite) begin
             ready=1'b1;
