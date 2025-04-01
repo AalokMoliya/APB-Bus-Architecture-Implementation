@@ -13,14 +13,14 @@ module apb_master(
   output reg pready
 );
  
-  reg[31:0] prdata0,prdata1,prdata2,prdata3;
-  
+  wire [31:0] prdata0,prdata1,prdata2,prdata3;
+  wire pslverr0,pslverr1,pslverr2,pslverr3;
   wire prady0,pready1,pready2,pready3;
-  apb_slave slave0 (pclk,psel[0],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata0,pslverr,pready0);
-  apb_slave slave1 (pclk,psel[1],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata1,pslverr,pready1);
-  apb_slave slave2 (pclk,psel[2],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata2,pslverr,pready2);
-  apb_slave slave3 (pclk,psel[3],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata3,pslverr,pready3); 
-  
+  apb_slave slave0 (pclk,psel[0],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata0,pslverr1,pready0);
+  apb_slave slave1 (pclk,psel[1],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata1,pslverr2,pready1);
+  apb_slave slave2 (pclk,psel[2],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata2,pslverr3,pready2);
+  apb_slave slave3 (pclk,psel[3],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata3,pslverr4,pready3); 
+  assign pslverr=pslverr0|pslverr1|pslverr2|pslverr3;
   reg [1:0]state,nextstate;
   parameter idle=2'b0,setup=2'd1,access=2'd2;
   
