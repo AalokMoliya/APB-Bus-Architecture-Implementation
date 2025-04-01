@@ -1,106 +1,3 @@
-// Code your testbench here
-// or browse Examples
-/*`timescale 1ns / 1ps
-
-module apb_master_tb;
-    
-    // Testbench signals
-    reg pclk, preset, penable, pwrite;
-    reg [31:0] paddr, pwdata;
-    reg [3:0] pstrb, psel;
-    reg [2:0] pprot;
-    wire [31:0] prdata;
-    wire pslverr,pready;
-  
-    
-    
-    // Instantiate APB Master
-    apb_master uut (
-        .pclk(pclk),
-        .penable(penable),
-        .preset(preset),
-        .paddr(paddr),
-        .pwrite(pwrite),
-        .pprot(pprot),
-        .pwdata(pwdata),
-        .pstrb(pstrb),
-        .prdata(prdata),
-        .pslverr(pslverr),
-        .psel(psel),
-        .pready(pready)
-    );
-    
-    // Clock generation
-    always #5 pclk = ~pclk;
-    
-    initial begin
-        // Initialize signals
-        pclk = 0;
-        preset = 0;
-        penable = 0;
-        pwrite = 0;
-        paddr = 32'h0;
-        pwdata = 32'h0;
-        pstrb = 4'hF;
-        pprot = 3'b000;
-        psel = 4'b0000;
-      $display($time,"psel=%b,penable=%b,preset=%b,pwrite=%b,paddr=%h,pwdata=%h,prdata=%h,pstrb=%b,pready=%b,pslverr=%b",psel,penable,preset,pwrite,paddr,pwdata,prdata,pstrb,pready,pslverr);
-        
-        // Apply reset
-        #10 preset = 1;
-        #10;
-        
-        // Write operation to Slave 0
-        psel = 4'b0001;
-        pwrite = 1;
-        paddr = 32'h10;
-        pwdata = 32'hA5A5A5A5;
-        penable = 1;
-        #20;
-      $display($time,"psel=%b,penable=%b,preset=%b,pwrite=%b,paddr=%h,pwdata=%h,prdata=%h,pstrb=%b,pready=%b,pslverr=%b",psel,penable,preset,pwrite,paddr,pwdata,prdata,pstrb,pready,pslverr);
-        
-        // Read operation from Slave 0
-        pwrite = 0;
-        #20;
-        
-        // Check error condition (incorrect write check)
-       psel = 4'b0010;
-        pwrite = 1;
-        paddr = 32'h20;
-        pwdata = 32'h12345678;
-        pstrb = 4'b0001;
-        #20;
-      $display($time,"psel=%b,penable=%b,preset=%b,pwrite=%b,paddr=%h,pwdata=%h,prdata=%h,pstrb=%b,pready=%b,pslverr=%b",psel,penable,preset,pwrite,paddr,pwdata,prdata,pstrb,pready,pslverr);
-        
-        // Read operation to check data integrity
-        pwrite = 0;
-        #20;
-      
-      $display($time,"psel=%b,penable=%b,preset=%b,pwrite=%b,paddr=%h,pwdata=%h,prdata=%h,pstrb=%b,pready=%b,pslverr=%b",psel,penable,preset,pwrite,paddr,pwdata,prdata,pstrb,pready,pslverr);
-      pwrite = 0;
-      paddr=32'h00000010;
-        #20;
-        
-        // Monitor signals for waveform
-      
-      $display($time,"psel=%b,penable=%b,preset=%b,pwrite=%b,paddr=%h,pwdata=%h,prdata=%h,pstrb=%b,pready=%b,pslverr=%b",psel,penable,preset,pwrite,paddr,pwdata,prdata,pstrb,pready,pslverr);
-        // End simulation
-      #40
-      pwrite=0;
-      psel=4'b0001;
-      paddr=32'h00000040;
-      $display($time,"psel=%b,penable=%b,preset=%b,pwrite=%b,paddr=%h,pwdata=%h,prdata=%h,pstrb=%b,pready=%b,pslverr=%b",psel,penable,preset,pwrite,paddr,pwdata,prdata,pstrb,pready,pslverr);
-      
-        #100;
-        $stop;
-    end
-    
-endmodule
-
-
-
-*/
-
 `timescale 1ns/1ps
 
 module apb_master_tb;
@@ -262,8 +159,8 @@ module apb_master_tb;
 
   // Monitor signals
   initial begin
-    $monitor("Time: %0t | PADDR: %h | PWDATA: %h | PRDATA: %h | PREADY: %b | PSEL: %b | PWRITE: %b | PENABLE: %b | pslverr : %b",
-             $time, paddr, pwdata, prdata, pready, psel, pwrite, penable,pslverr);
+    $monitor("Time: %0t | PADDR: %h | PWDATA: %h | PRDATA: %h | PREADY: %b | PSEL: %b | PWRITE: %b | PENABLE: %b ",
+             $time, paddr, pwdata, prdata, pready, psel, pwrite, penable);
   end
 
 endmodule
