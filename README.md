@@ -5,6 +5,15 @@ This project implements an **Advanced Peripheral Bus (APB) Master-Slave Interfac
 
 The project aims to provide a functional and scalable APB interface that can be easily extended for complex SoC (System-on-Chip) designs. It includes an APB master controller, multiple slave modules, and a storage module to simulate memory operations.
 
+## Project Images
+
+<img src="https://github.com/user-attachments/assets/2d21cd13-978d-4814-990a-6d5d701311e4" width="400">
+
+<img src="https://github.com/user-attachments/assets/118b817a-ffb6-4672-9c44-34f78c0d45a8" width="400">
+
+<img src="https://github.com/user-attachments/assets/36f47279-0551-42e4-9a04-a8848679e5f3" width="400">
+
+
 ## Features
 - **APB Master Implementation**: The master controls the transaction flow using a Finite State Machine (FSM) that manages the **IDLE, SETUP, and ACCESS** phases.
 - **Support for Multiple Slaves**: The design includes four APB slave modules, which can be expanded as needed.
