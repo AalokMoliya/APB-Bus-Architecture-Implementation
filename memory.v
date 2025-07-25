@@ -1,5 +1,5 @@
 module storage(input pwrite,input [31:0]paddr,input [31:0]pwdata,input [3:0]pstrb,output reg [31:0]prdata);
-  reg [31:0]memory[0:31];
+  reg [31:0]memory[0:2^32-1];
   always @(*) begin
     if(pwrite) begin
       prdata=32'b0;
