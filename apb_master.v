@@ -1,6 +1,5 @@
 module apb_master(
-  input pclk,
-  input penable,
+  input pclk, 
   input preset,
   input [31:0]paddr,
   input pwrite,
@@ -9,6 +8,7 @@ module apb_master(
   input [3:0]pstrb,
   output  reg[31:0]prdata,
   output pslverr,
+  output reg penable,
   input [3:0]psel,
   output reg pready
 );
@@ -32,14 +32,17 @@ module apb_master(
   always @(*) begin
     case (state)
       idle : begin
+        penable=1'b0;
         if(|psel) nextstate=setup;
       end
       
       setup : begin
+        penable=1'b0;
         nextstate=access;
       end
       
       access:  begin
+        penable=1'b1;
         if ( (psel!=4'b0) && (pready==1'b1)) nextstate=setup;
         else if( (psel==4'b0) && (pready==1'b1)) nextstate=idle;
         else nextstate=access;
@@ -55,5 +58,3 @@ module apb_master(
   end
   
 endmodule
-
- 
