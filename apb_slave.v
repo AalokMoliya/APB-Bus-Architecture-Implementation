@@ -1,4 +1,4 @@
- module apb_slave(
+module apb_slave(
    // input [31:0]memory[0:31],
    input pclk,
     input psel,
