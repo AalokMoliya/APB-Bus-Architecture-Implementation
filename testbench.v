@@ -19,9 +19,9 @@ module apb_master_tb;
   wire pready;
 
   // Instantiate the APB Master
-  apb_master uut (
+  apb_Interface uut (
     .pclk(pclk),
-    .penable(penable),
+    //.penable(penable),
     .preset(preset),
     .paddr(paddr),
     .pwrite(pwrite),
