@@ -15,7 +15,7 @@ module apb_master(
  
   wire [31:0] prdata0,prdata1,prdata2,prdata3;
   wire pslverr0,pslverr1,pslverr2,pslverr3;
-  wire prady0,pready1,pready2,pready3;
+  wire pready0,pready1,pready2,pready3;
   apb_slave slave0 (pclk,psel[0],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata0,pslverr1,pready0);
   apb_slave slave1 (pclk,psel[1],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata1,pslverr2,pready1);
   apb_slave slave2 (pclk,psel[2],penable,preset,paddr,pwrite,pprot,pwdata,pstrb,prdata2,pslverr3,pready2);
@@ -58,3 +58,4 @@ module apb_master(
   end
   
 endmodule
+
