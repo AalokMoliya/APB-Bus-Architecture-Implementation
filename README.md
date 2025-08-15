@@ -7,7 +7,7 @@ The project aims to provide a functional and scalable APB interface that can be 
 
 ## Project Output Image
 
-<img width="1553" height="336" alt="image" src="https://github.com/user-attachments/assets/79472ab2-be39-4662-8d2e-2fa7404cab89" />
+<img width="1260" height="445" alt="image" src="https://github.com/user-attachments/assets/dde1fe11-855f-42e2-8243-7ce01c39678a" />
 
 ## Features
 - **APB Master Implementation**: The master controls the transaction flow using a Finite State Machine (FSM) that manages the **IDLE, SETUP, and ACCESS** phases.
@@ -23,8 +23,8 @@ The project aims to provide a functional and scalable APB interface that can be 
 The **APB master** module is responsible for controlling communication between multiple slaves. It selects the appropriate slave device based on the `psel` signal and manages transaction sequencing through an FSM.
 
 ## APB_Master schematic Image
-<img width="1167" height="423" alt="image" src="https://github.com/user-attachments/assets/f109dbbb-e4f2-4c2f-8de9-89d48ad01139" />
-<img width="1553" height="588" alt="image" src="https://github.com/user-attachments/assets/bf584c25-1dfd-4d95-bc9f-b639c5f34723" />
+<img width="1824" height="668" alt="image" src="https://github.com/user-attachments/assets/c5464312-fc6c-4fc4-8186-e42652f0a444" />
+
 
 #### Key Functions:
 - Implements a **state machine** to control the APB transfer process.
@@ -37,7 +37,7 @@ The **APB master** module is responsible for controlling communication between m
 Each **APB slave** acts as a peripheral that can receive and respond to master transactions. It processes read and write requests by interacting with the memory (`storage` module) and generates appropriate response signals.
 
 ## APB_slave schematic Image
-<img width="1338" height="553" alt="image" src="https://github.com/user-attachments/assets/22b09875-d7d0-46f2-a598-b13a1302b7e0" />
+<img width="1208" height="495" alt="image" src="https://github.com/user-attachments/assets/807a9543-ae4c-49b5-9341-fcd2461f9a0e" />
 
 
 #### Key Functions:
