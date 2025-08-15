@@ -1,21 +1,3 @@
-module apb_Interface(
-  input pclk, 
-  input preset,
-  input [31:0]paddr,
-  input pwrite,
-  input [2:0]pprot,
-  input [31:0]pwdata,
-  input [3:0]pstrb,
-  output [31:0]prdata,
-  output pslverr,
-
-  input [3:0]psel,
-  output  pready
-);
-wire pena;
- apb_master m (pclk, preset, paddr[31:0], pwrite, pprot [2:0], pwdata[31:0], pstrb[3:0], prdata[31:0], pslverr, pena, psel[3:0], pready);
-endmodule
-
 module apb_master(
   input pclk, 
   input preset,
@@ -27,7 +9,7 @@ module apb_master(
   output  reg[31:0]prdata,
   output pslverr,
   output reg penable,
-  input [3:0]psel,
+  output reg [3:0]psel,
   output reg pready
 );
  
@@ -51,7 +33,7 @@ module apb_master(
     case (state)
       idle : begin
         penable=1'b0;
-        if(|psel) nextstate=setup;
+        if(|paddr) nextstate=setup;
       end
       
       setup : begin
@@ -61,26 +43,37 @@ module apb_master(
       
       access:  begin
         penable=1'b1;
-        if ( (psel!=4'b0) && (pready==1'b1)) nextstate=setup;
-        else if( (psel==4'b0) && (pready==1'b1)) nextstate=idle;
+        if ( (paddr!=4'b0) && (pready==1'b1)) nextstate=setup;
+        else if( (paddr==4'b0) && (pready==1'b1)) nextstate=idle;
         else nextstate=access;
       end
+       default nextstate=idle;
     endcase
-    case (psel)
-        4'b0001 : prdata=prdata0;
-        4'b0010 : prdata=prdata1;
-        4'b0100 : prdata=prdata2;
-        4'b1000 : prdata=prdata3;
-      		endcase 
+    case (paddr[31:30])
+        2'b00 : begin
+                psel=4'b0001;
+                prdata=prdata0;
+                end
+        2'b01 : begin
+                psel=4'b0010;
+                prdata=prdata1;
+                end
+        2'b10 : begin
+                psel=4'b0100;
+                prdata=prdata2;
+                end
+        2'b11 : begin
+                psel=4'b1000;
+                prdata=prdata3;
+                end
+    endcase
     pready=pready0|pready1|pready2|pready3;
   end
-  
 endmodule
 
 
- module apb_slave(
-   // input [31:0]memory[0:31],
-   input pclk,
+ module apb_slave( 
+    input pclk,
     input psel,
     input penable,
     input preset, 
@@ -103,22 +96,21 @@ endmodule
           end
      else if(psel & penable & ~pwrite) begin
             ready=1'b1;
-            //prdata=memory[paddr];
           end
-     else if(psel & ~penable) begin
+     else if( ~penable) begin
             ready=1'b0;
           end
-     if((pwrite==1'b1) && (psel==1'b1)) pslverr=1'b1;
-     else if((pwrite==1'b0) &&(psel==1'b1)) pslverr=1'b1;
+     if((pwrite==1'b1) && (psel==1'b1) && pwdata===32'bx) pslverr=1'b1;
+     else if((pwrite==1'b0) &&(psel==1'b1)&& pwdata===32'bx) pslverr=1'b1;
      else pslverr=1'b0;
    end
    always @(posedge pclk)begin
     pready=ready;
      prdata=rdata;
-   end
-          
+   end  
  endmodule
- 
+
+
  module storage(input pwrite,input [31:0]paddr,input [31:0]pwdata,input [3:0]pstrb,output reg [31:0]prdata);
    reg [31:0]memory[0:2^32-1];
   always @(*) begin
@@ -136,5 +128,4 @@ endmodule
     end
     else prdata=memory[paddr];
   end
-  
 endmodule
