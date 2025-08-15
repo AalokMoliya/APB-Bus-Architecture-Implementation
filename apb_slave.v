@@ -1,6 +1,5 @@
-module apb_slave(
-   // input [31:0]memory[0:31],
-   input pclk,
+module apb_slave( 
+    input pclk,
     input psel,
     input penable,
     input preset, 
@@ -23,18 +22,16 @@ module apb_slave(
           end
      else if(psel & penable & ~pwrite) begin
             ready=1'b1;
-            //prdata=memory[paddr];
           end
-     else if(psel & ~penable) begin
+     else if( ~penable) begin
             ready=1'b0;
           end
-     if((pwrite==1'b1) && (psel==1'b1)) pslverr=1'b1;
-     else if((pwrite==1'b0) &&(psel==1'b1)) pslverr=1'b1;
+     if((pwrite==1'b1) && (psel==1'b1) && pwdata===32'bx) pslverr=1'b1;
+     else if((pwrite==1'b0) &&(psel==1'b1)&& pwdata===32'bx) pslverr=1'b1;
      else pslverr=1'b0;
    end
    always @(posedge pclk)begin
     pready=ready;
      prdata=rdata;
-   end
-          
+   end   
  endmodule
